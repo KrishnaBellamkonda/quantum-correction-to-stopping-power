@@ -1,215 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quantum Description of Electronic Stopping Power</title>
-  <meta name="description" content="Treating the projectile as a quantum wavepacket in real-time TDDFT reveals a large, energy-dependent correction to the electronic stopping power of jellium." />
-
-  <!-- Social preview (so the CV link looks good when shared/emailed) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Quantum Description of Electronic Stopping Power" />
-  <meta property="og:description" content="A quantum-wavepacket projectile in real-time TDDFT reveals a large, energy-dependent correction to electronic stopping power." />
-  <meta property="og:image" content="assets/hero/hero_energy_absorption_poster.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Inline SVG favicon: a wave through a slab -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230e1116'/%3E%3Crect x='12' y='6' width='8' height='20' fill='%231b222c' stroke='%238b6cff' stroke-width='1'/%3E%3Cpath d='M2 16 q4 -8 8 0 t8 0' fill='none' stroke='%23c0392b' stroke-width='2'/%3E%3C/svg%3E" />
-
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quantum Correction to Electronic Stopping Power</title>
+<meta name="description" content="Krishna Bellamkonda — quantifying the quantum (wavepacket) correction to electronic stopping power with real-time TDDFT." />
+<meta property="og:title" content="Quantum Correction to Electronic Stopping Power" />
+<meta property="og:description" content="A quantum-mechanical projectile (wavepacket) in rt-TDDFT stops ~half as strongly as a classical point charge." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="assets/hero/hero_deltaE_poster.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e1116'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%238b6cff' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%23c0392b'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<!-- ============================ HERO ============================ -->
-<header class="hero" id="top">
-  <div class="kicker">MPhil research project</div>
-  <h1>Quantum Description of Electronic Stopping Power</h1>
-  <p class="sub ph">One- or two-sentence headline goes here. Lead with the energy-dependent quantum correction — e.g. "treating the projectile quantum-mechanically suppresses stopping most strongly in the low-energy regime relevant to biological damage." Write this after viewing the plots.</p>
+<!-- ================================ NAV ================================ -->
+<nav class="topnav">
+  <a class="brand" href="#top">Krishna Bellamkonda</a>
+  <div class="navlinks">
+    <a href="#motivation">Motivation</a>
+    <a href="#idea">The idea</a>
+    <a href="#extrapolation">Extrapolation</a>
+    <a href="#results">Key results</a>
+    <a href="#coronene">Coronene</a>
+    <a href="#extras">Extras</a>
+    <a href="#conclusion">Conclusion</a>
+    <a class="codelink" href="https://github.com/KrishnaBellamkonda/inq-tddft-research" target="_blank" rel="noopener">Code ↗</a>
+  </div>
+</nav>
 
-  <div class="hero-media">
-    <div class="grid2">
-      <figure class="fig">
-        <video autoplay loop muted playsinline poster="assets/hero/hero_density_classical_poster.png">
-          <source src="assets/hero/hero_density_classical.mp4" type="video/mp4" />
-        </video>
-        <figcaption>Classical point charge (cyan ring) driving through the slab — the bath density responds locally.</figcaption>
+<main class="snap">
+
+<!-- ============================== 1. HERO ============================== -->
+<header class="screen hero" id="top">
+  <div class="wrap">
+    <div class="kicker">Real-time TDDFT · electronic stopping power</div>
+    <h1>Quantum Correction to Electronic Stopping Power</h1>
+    <p class="sub ph">Headline sentence goes here — lead with the result: treating the projectile quantum-mechanically (as a wavepacket) suppresses the stopping power to about half the classical value. Write after viewing the plots.</p>
+
+    <div class="hero-grid">
+      <figure class="media">
+        <div class="gifbox">
+          <video autoplay loop muted playsinline poster="assets/hero/hero_combined_density_poster.png">
+            <source src="assets/hero/hero_combined_density.mp4" type="video/mp4" />
+          </video>
+        </div>
       </figure>
-      <figure class="fig">
-        <video autoplay loop muted playsinline poster="assets/hero/hero_density_wp_poster.png">
-          <source src="assets/hero/hero_density_wp.mp4" type="video/mp4" />
+      <figure class="media">
+        <video id="heroVideo" autoplay muted playsinline poster="assets/hero/hero_deltaE_poster.png">
+          <source src="assets/hero/hero_deltaE.mp4" type="video/mp4" />
         </video>
-        <figcaption>Quantum wavepacket projectile — it spreads out (disperses) as it propagates.</figcaption>
       </figure>
     </div>
-    <figure>
-      <video autoplay loop muted playsinline poster="assets/hero/hero_energy_absorption_poster.png">
-        <source src="assets/hero/hero_energy_absorption.mp4" type="video/mp4" />
-        <img class="herofig" src="assets/hero/hero_energy_absorption_poster.png" alt="Energy deposited in the slab: classical vs wavepacket" />
-      </video>
-      <figcaption>Energy deposited in the jellium slab (E = 100&nbsp;eV, L<sub>z</sub> = 30&nbsp;Bohr): the classical point charge deposits 5.5&nbsp;eV, the quantum wavepacket only 2.9&nbsp;eV — about half.</figcaption>
-    </figure>
-  </div>
 
-  <a class="cta" href="#why">Explore the research ↓</a>
+    <div class="se-calc">
+      <span class="formula">S = ΔE / L<sub>z</sub></span>
+      <span class="se-val"><b class="cl">S<sub>classical</sub> = 0.4 ± 0.1</b> eV/Bohr</span>
+      <span class="se-val"><b class="wpc">S<sub>wavepacket</sub> = 0.21 ± 0.07</b> eV/Bohr</span>
+      <span class="se-val"><b>ΔS = 0.17 ± 0.05</b> eV/Bohr</span>
+      <span class="se-val">ratio <b>0.56 ± 0.02</b></span>
+    </div>
+
+    <a class="cta" id="exploreBtn" href="#motivation">Explore ↓</a>
+    <p class="cap">Classical point charge vs. quantum wavepacket at E = 100&nbsp;eV: identical setup, but the wavepacket deposits ~half the energy — so its stopping power is ~half (bulk limit, L<sub>z</sub>→∞). Uncertainties are the linear-vs-quadratic extrapolation spread over three slab thicknesses.</p>
+  </div>
 </header>
 
-<!-- ======================= 2. WHY IT MATTERS ======================= -->
-<section class="block" id="why">
-  <div class="num">01 — Motivation</div>
-  <h2>Why electronic stopping power matters</h2>
-  <p class="ph">Opening narrative. Draft from your brief: a charged particle traversing condensed matter deposits energy through atomic and electronic interactions ("radiation damage"); the electronic contribution is the electronic stopping power. Keep it 2–3 short paragraphs.</p>
-
-  <div class="eq">S(E) = &minus; dE / dx &nbsp;&nbsp;&nbsp; <span style="font-style:normal;color:var(--ink-soft)">(electronic stopping power — replace with your preferred form)</span></div>
-
-  <p class="ph">Low-energy electrons (~10 eV) are significant for biological systems — DNA-damage yield peaks near 10 eV. At this scale the electron is a quantum particle and classical approximations fail. End the section on that tension to set up the method.</p>
-
-  <figure class="fig">
-    <div class="fig-missing">DNA-damage vs electron-energy annotated plot — you have this file; drop it in <code>website/assets/figures/motivation/</code> and I'll wire it here.</div>
-    <figcaption class="ph">Caption for the DNA-damage / low-energy-electron plot.</figcaption>
-  </figure>
-</section>
-
-<!-- ======================= 3. THE IDEA ======================= -->
-<section class="block" id="idea">
-  <div class="num">02 — The idea</div>
-  <h2>Point charge vs. quantum wavepacket</h2>
-  <p class="ph">Explain the field-standard method (rt-TDDFT with a classical projectile) and how this project goes beyond it: the projectile electron is represented as a wavepacket and propagated quantum-mechanically alongside the target electrons. State the aim: quantify the quantum correction to the classical stopping power.</p>
-
-  <figure class="fig">
-    <img src="assets/figures/setup/setup_jellium_slab_cap.png" alt="Jellium slab with absorbing boundaries and incoming projectile" />
-    <figcaption class="ph">Caption: the 3D jellium slab with absorbing boundary conditions on either face; projectile launched from an initial position toward the slab.</figcaption>
-  </figure>
-
-  <h3>The two projectiles, side by side</h3>
-  <div class="grid2">
+<!-- ============================ 2. MOTIVATION ========================== -->
+<section class="screen" id="motivation">
+  <div class="wrap reveal">
+    <div class="kicker">Motivation</div>
+    <h2>Why electronic stopping power matters</h2>
+    <p class="ph">Narrative placeholder (you write): a charged particle slowing in matter deposits energy electronically (radiation damage); low-energy electrons (~10&nbsp;eV) drive DNA damage; at that scale the projectile is quantum, and the classical point-charge picture breaks down.</p>
     <figure class="fig">
-      <video autoplay loop muted playsinline poster="assets/hero/hero_density_classical_poster.png">
-        <source src="assets/hero/hero_density_classical.mp4" type="video/mp4" />
-      </video>
-      <figcaption>Classical point charge — stays localised (cyan ring).</figcaption>
-    </figure>
-    <figure class="fig">
-      <video autoplay loop muted playsinline poster="assets/hero/hero_density_wp_poster.png">
-        <source src="assets/hero/hero_density_wp.mp4" type="video/mp4" />
-      </video>
-      <figcaption>Quantum wavepacket — disperses as it propagates.</figcaption>
-    </figure>
-  </div>
-  <p class="ph">Caption/provenance for the pair above. This is the <em>actual</em> matched classical-vs-wavepacket pair at the hero condition (bare electron, E = 100&nbsp;eV, σ<sub>WP</sub> = 2&nbsp;Bohr, L<sub>z</sub> = 30&nbsp;Bohr, identical box and ground state) — the same two runs behind the hero energy curve. Author: describe the qualitative contrast (localised point charge vs. spreading wavepacket).</p>
-</section>
-
-<!-- ======================= 4. WORKED EXAMPLE ======================= -->
-<section class="block" id="example">
-  <div class="num">03 — One worked example</div>
-  <h2>Reading a single run</h2>
-  <p class="ph">Teach the reader to read the energy-vs-time plot: after the projectile exits, the total energy relative to the ground state plateaus at the energy absorbed by the slab; dividing by L<sub>z</sub> gives an average stopping power. The wavepacket plateaus lower → smaller S.</p>
-
-  <figure class="fig">
-    <img src="assets/figures/worked/7r_dEtot_vs_time_both_preview.png" alt="Total energy vs time, classical and wavepacket" />
-    <figcaption class="ph">Caption for the combined classical+WP energy-vs-time figure.</figcaption>
-  </figure>
-
-  <div class="grid2">
-    <figure class="fig">
-      <img src="assets/figures/worked/worked_classical_E100_Lz45.png" alt="Classical E(t), E=100 eV, Lz=45" />
-      <figcaption>Classical, E = 100&nbsp;eV, L<sub>z</sub> = 45&nbsp;Bohr.</figcaption>
-    </figure>
-    <figure class="fig">
-      <img src="assets/figures/worked/worked_wp_E100_Lz45.png" alt="Wavepacket E(t), E=100 eV, Lz=45" />
-      <figcaption>Wavepacket, E = 100&nbsp;eV, L<sub>z</sub> = 45&nbsp;Bohr.</figcaption>
+      <img src="assets/figures/motivation/interim_slide.png" alt="Motivation — interim presentation slide" />
+      <figcaption class="ph">Caption for the motivation slide.</figcaption>
     </figure>
   </div>
 </section>
 
-<!-- ======================= 5. IS IT TRUSTWORTHY ======================= -->
-<section class="block" id="trustworthy">
-  <div class="num">04 — Is the number trustworthy?</div>
-  <h2>Extrapolating to the infinite slab</h2>
-  <p class="ph">Explain the finite-size argument: a single slab of thickness L<sub>z</sub> gives a length-dependent S; plotting S against 1/L<sub>z</sub> and extrapolating to 1/L<sub>z</sub> → 0 gives the bulk limit. Be open that each limit is a fit through 3 lengths (L<sub>z</sub> = 15/30/45) — showing the fits is the credibility.</p>
-
-  <div class="grid3">
-    <figure class="fig"><img src="assets/figures/extrapolation/S_vs_invLz_E31.png" alt="S vs 1/Lz, E=31 eV" /><figcaption>E = 31&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/extrapolation/S_vs_invLz_E54.png" alt="S vs 1/Lz, E=54 eV" /><figcaption>E = 54&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/extrapolation/S_vs_invLz_E100.png" alt="S vs 1/Lz, E=100 eV" /><figcaption>E = 100&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/extrapolation/S_vs_invLz_E167.png" alt="S vs 1/Lz, E=167 eV" /><figcaption>E = 167&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/extrapolation/S_vs_invLz_E276.png" alt="S vs 1/Lz, E=276 eV" /><figcaption>E = 276&nbsp;eV</figcaption></figure>
-  </div>
-</section>
-
-<!-- ======================= 6. THE RESULT ======================= -->
-<section class="block" id="result">
-  <div class="num">05 — The result</div>
-  <h2>The quantum correction to S(E)</h2>
-  <p class="ph">The payoff. State the energy-dependent correction: largest at low energy (WP ≈ ¼ of classical near 30 eV), shrinking toward the classical limit at high energy. The shaded band is the correction.</p>
-
-  <figure class="fig">
-    <img src="assets/figures/result/S_vs_E_bulk.png" alt="Bulk stopping power vs energy, classical vs wavepacket" />
-    <figcaption class="ph">Caption for the bulk (L<sub>z</sub>→∞) S(E) classical-vs-wavepacket figure.</figcaption>
-  </figure>
-
-  <table class="kv">
-    <thead><tr><th>E (eV)</th><th>S<sub>classical</sub></th><th>S<sub>WP</sub></th><th>WP / classical</th></tr></thead>
-    <tbody>
-      <tr><td>31</td><td>0.28</td><td>0.067</td><td>0.24</td></tr>
-      <tr><td>54</td><td>0.52</td><td>0.17</td><td>0.33</td></tr>
-      <tr><td>100</td><td>0.38</td><td>0.21</td><td>0.56</td></tr>
-      <tr><td>167</td><td>0.22</td><td>0.14</td><td>0.64</td></tr>
-      <tr><td>276</td><td>0.12</td><td>0.076</td><td>0.65</td></tr>
-    </tbody>
-  </table>
-  <p style="font-size:0.85rem">Bulk-extrapolated stopping powers (eV/Bohr), from <code>sE_results.csv</code>.</p>
-</section>
-
-<!-- ======================= 7. SECONDARY EMISSION ======================= -->
-<section class="block" id="secondary">
-  <div class="num">06 — Why you should care</div>
-  <h2>Secondary electron emission</h2>
-  <p class="ph">Explain what the absorbing boundaries let you measure: charge ejected from the slab (secondary electrons), and how the classical vs quantum pictures differ. Tie back to the biological-damage motivation.</p>
-
-  <div class="grid2">
-    <figure class="fig">
-      <img src="assets/figures/secondary/secondary_emission.png" alt="Secondary electron emission vs energy" />
-      <figcaption class="ph">Caption for the secondary-emission summary figure.</figcaption>
+<!-- ============================== 3. THE IDEA ========================== -->
+<section class="screen" id="idea">
+  <div class="wrap reveal">
+    <div class="kicker">The idea</div>
+    <h2>A quantum projectile, not a point charge</h2>
+    <figure class="fig methodfig">
+      <img src="assets/figures/idea/method_portrait.png" alt="Method: a Gaussian wavepacket projectile incident on a jellium slab with absorbing boundaries on both faces" />
     </figure>
-    <figure class="fig">
-      <img src="assets/figures/secondary/absorption_vs_time.png" alt="CAP absorption vs time" />
-      <figcaption class="ph">Caption: charge absorbed by the CAP over time (WP example, E=100 eV).</figcaption>
-    </figure>
+    <p class="ph">Brief explanation placeholder (you write): the field-standard method propagates a classical point charge through the target in rt-TDDFT. Here the projectile electron is represented as a Gaussian <em>wavepacket</em> — an extra Kohn–Sham orbital with width σ<sub>r</sub> and mean momentum k₀ — and propagated quantum-mechanically alongside the target electrons. Absorbing boundaries collect what leaves. The aim: quantify the quantum correction to the classical stopping power.</p>
   </div>
 </section>
 
-<!-- ======================= 8. APPENDIX ======================= -->
-<details class="appendix" id="explore">
-  <summary>Explore every run — per-energy energy traces</summary>
-
-  <p class="ph" style="margin-top:1.5rem">Optional intro for the appendix. These are the individual runs behind the S(E) curve (shown at L<sub>z</sub> = 45 Bohr). Per-energy density animations could be added here later from dedicated frame-saving runs at each energy (only the E = 100 eV pair, shown in the hero, currently saves frames).</p>
-
-  <h3>Classical</h3>
-  <div class="grid3">
-    <figure class="fig"><img src="assets/figures/appendix/classical_E31_v1p5_Lz45.png" alt="" /><figcaption>E = 31&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/appendix/classical_E54_v2p0_Lz45.png" alt="" /><figcaption>E = 54&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/appendix/classical_E100_v2p71_Lz45.png" alt="" /><figcaption>E = 100&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/appendix/classical_E167_v3p5_Lz45.png" alt="" /><figcaption>E = 167&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/appendix/classical_E276_v4p5_Lz45.png" alt="" /><figcaption>E = 276&nbsp;eV</figcaption></figure>
+<!-- ========================= 4. EXTRAPOLATION ========================== -->
+<section class="screen" id="extrapolation">
+  <div class="wrap reveal">
+    <div class="kicker">Finite-size → bulk</div>
+    <h2>Extrapolating to the infinite slab</h2>
+    <p class="lead ph">Placeholder: a single slab of thickness L<sub>z</sub> gives a length-dependent S; plotting S against 1/L<sub>z</sub> and extrapolating to 1/L<sub>z</sub>→0 gives the bulk limit. Each limit is a fit through three lengths (L<sub>z</sub> = 15/30/45&nbsp;Bohr) — shown openly.</p>
+    <div class="panelgrid">
+      <figure class="epanel"><img src="assets/figures/extrapolation/S_vs_invLz_E54.png" alt="S vs 1/Lz, E=54 eV" />
+        <div class="bulkbox"><span>bulk <b class="cl">classical 0.52</b></span><span><b class="wpc">wavepacket 0.17</b> eV/Bohr</span></div></figure>
+      <figure class="epanel"><img src="assets/figures/extrapolation/S_vs_invLz_E100.png" alt="S vs 1/Lz, E=100 eV" />
+        <div class="bulkbox"><span>bulk <b class="cl">classical 0.38</b></span><span><b class="wpc">wavepacket 0.21</b> eV/Bohr</span></div></figure>
+      <figure class="epanel"><img src="assets/figures/extrapolation/S_vs_invLz_E167.png" alt="S vs 1/Lz, E=167 eV" />
+        <div class="bulkbox"><span>bulk <b class="cl">classical 0.22</b></span><span><b class="wpc">wavepacket 0.14</b> eV/Bohr</span></div></figure>
+      <figure class="epanel"><img src="assets/figures/extrapolation/S_vs_invLz_E276.png" alt="S vs 1/Lz, E=276 eV" />
+        <div class="bulkbox"><span>bulk <b class="cl">classical 0.12</b></span><span><b class="wpc">wavepacket 0.08</b> eV/Bohr</span></div></figure>
+    </div>
   </div>
+</section>
 
-  <h3>Wavepacket</h3>
-  <div class="grid3">
-    <figure class="fig"><img src="assets/figures/appendix/wp_E31_v1p5_Lz45.png" alt="" /><figcaption>E = 31&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/appendix/wp_E54_v2p0_Lz45.png" alt="" /><figcaption>E = 54&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/appendix/wp_E100_v2p71_Lz45.png" alt="" /><figcaption>E = 100&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/appendix/wp_E167_v3p5_Lz45.png" alt="" /><figcaption>E = 167&nbsp;eV</figcaption></figure>
-    <figure class="fig"><img src="assets/figures/appendix/wp_E276_v4p5_Lz45.png" alt="" /><figcaption>E = 276&nbsp;eV</figcaption></figure>
+<!-- =========================== 5. KEY RESULTS ========================== -->
+<section class="screen" id="results">
+  <div class="wrap reveal">
+    <div class="kicker">Key results</div>
+    <h2>The quantum correction across energies</h2>
+    <figure class="fig keyfig">
+      <img src="assets/figures/result/S_vs_E_bulk.png" alt="Bulk stopping power S(E): classical vs wavepacket, difference shaded" />
+      <figcaption class="ph">Caption/brief explanation (you write): the grey region between the curves is the difference; the quantum projectile stops more weakly at every energy, and the correction is largest at low energy.</figcaption>
+    </figure>
+    <div class="tworow">
+      <figure class="fig"><div class="eqbox"><img src="assets/figures/secondary/secondary_emission.png" alt="Secondary electron emission vs energy" /></div>
+        <figcaption class="ph">Caption: secondary electrons ejected past the absorbing boundary.</figcaption></figure>
+      <figure class="fig"><div class="eqbox"><img src="assets/figures/secondary/see_barchart.png" alt="Secondary emission: classical vs wavepacket bars at Lz=45" /></div>
+        <figcaption class="ph">Caption: the wavepacket ejects far more secondary electrons than the point charge.</figcaption></figure>
+    </div>
   </div>
+</section>
 
-  <div class="fig-missing" style="margin-top:2rem">Per-energy density animations (classical vs wavepacket) — placeholder for the "C" hero upgrade (needs a frame-saving re-run).</div>
-</details>
+<!-- ============================= 6. CORONENE =========================== -->
+<section class="screen" id="coronene">
+  <div class="wrap reveal">
+    <div class="kicker">Towards real targets</div>
+    <h2>A wavepacket incident on coronene</h2>
+    <p class="lead ph">Placeholder: extending the quantum-projectile method from jellium to a real molecular target (coronene), with the same absorbing-boundary treatment.</p>
+    <div class="corogrid">
+      <figure><img src="assets/figures/coronene/wp_xz.gif" alt="Wavepacket density, xz plane" /><figcaption>wavepacket — propagation (xz)</figcaption></figure>
+      <figure><img src="assets/figures/coronene/wp_xy.gif" alt="Wavepacket density, xy plane with absorbing-boundary overlay" /><figcaption>wavepacket — target plane (xy), absorber overlaid</figcaption></figure>
+      <figure><img src="assets/figures/coronene/target_xz.gif" alt="Coronene target response, xz plane" /><figcaption>coronene response (xz)</figcaption></figure>
+    </div>
+  </div>
+</section>
 
-<footer>
-  <p class="ph">Footer: your name, contact, links (thesis/report PDF, GitHub, email). This is a CV-linked page — make it easy to reach you.</p>
-  <p><a href="#top">↑ Back to top</a></p>
-</footer>
+<!-- ============================== 7. EXTRAS ============================ -->
+<section class="screen" id="extras">
+  <div class="wrap reveal">
+    <div class="kicker">Extras</div>
+    <h2>Under the hood</h2>
+    <p class="lead ph">Placeholder: a short tour of the codebase/architecture behind these simulations (you explain). Full source is linked below.</p>
+    <div class="extragrid">
+      <figure class="fig"><img src="assets/figures/extras/frame4.png" alt="Codebase / architecture frame 4" />
+        <figcaption class="ph">Caption for frame 4.</figcaption></figure>
+      <figure class="fig"><img src="assets/figures/extras/frame6.png" alt="Codebase / architecture frame 6" />
+        <figcaption class="ph">Caption for frame 6.</figcaption></figure>
+    </div>
+    <p style="margin-top:1.2rem">Source code: <a href="https://github.com/KrishnaBellamkonda/inq-tddft-research" target="_blank" rel="noopener">github.com/KrishnaBellamkonda/inq-tddft-research ↗</a></p>
+  </div>
+</section>
 
+<!-- ============================ 8. CONCLUSION ========================== -->
+<section class="screen" id="conclusion">
+  <div class="wrap reveal">
+    <div class="kicker">Conclusion</div>
+    <h2>Summary &amp; outlook</h2>
+    <p class="ph">Conclusion placeholder (you write): restate the quantum correction, its energy dependence, the secondary-emission enhancement, and next steps (real targets, lower energies, the biological regime).</p>
+    <footer>
+      <strong>Krishna Bellamkonda</strong> · MPhil, Physics · University of Cambridge<br />
+      <a href="https://github.com/KrishnaBellamkonda/inq-tddft-research" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="mailto:chiddukanna@gmail.com">email</a>
+    </footer>
+  </div>
+</section>
+
+</main>
 <script src="js/main.js"></script>
 </body>
 </html>

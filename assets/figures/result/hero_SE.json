@@ -1,0 +1,12 @@
+{
+  "E_eV": 100,
+  "S_cl": 0.3838523088306775,
+  "S_cl_err": 0.1203448442633347,
+  "S_wp": 0.21411294510258813,
+  "S_wp_err": 0.07233679109216863,
+  "dS": 0.16973936372808937,
+  "dS_err": 0.04801414241635374,
+  "ratio": 0.5578003314734165,
+  "ratio_err": 0.019742535787560245,
+  "note": "central=quadratic extrap; uncertainty=|quadratic-linear| extrapolation-model spread (3 slab lengths)"
+}
