@@ -20,17 +20,7 @@ if (location.search.indexOf("qa") >= 0) document.documentElement.classList.add("
   if (p && p.catch) p.catch(function () { /* autoplay may be blocked; ignore */ });
 })();
 
-// 2. Scroll-reveal content as each screen enters the viewport.
-(function () {
-  if (!("IntersectionObserver" in window)) {
-    document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
-    return;
-  }
-  var obs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add("in"); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll(".reveal").forEach(function (el) { obs.observe(el); });
-})();
+// 2. (entrance animation is now pure CSS — see .reveal in style.css)
 
 // 2b. QA/deep-link: ?s=<section-id> scrolls straight to that screen on load.
 (function () {

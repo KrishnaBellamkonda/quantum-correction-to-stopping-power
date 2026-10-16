@@ -19,7 +19,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-snap-type: y proximity; scroll-padding-top: var(--nav-h); }
 body {
   margin: 0;
   background: var(--bg);
@@ -57,7 +57,7 @@ a:hover { text-decoration: underline; }
 .navlinks a.codelink:hover { background: rgba(139, 108, 255, 0.12); }
 
 /* ------------------------------------------------------------ snap "screens" */
-.snap { scroll-snap-type: y proximity; }
+.snap { }   /* snap lives on <html> (the scroller); sections align to it */
 .screen {
   min-height: 100vh;
   scroll-snap-align: start;
@@ -171,15 +171,17 @@ figure.fig figcaption { font-size: 0.85rem; color: var(--ink-soft); margin-top: 
   background: var(--bg-soft); border: 1px solid var(--rule); border-radius: 8px;
   padding: 0.9em 1.1em; margin: 1.2em 0; color: var(--ink); overflow-x: auto; }
 
-/* scroll-reveal */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.reveal.in { opacity: 1; transform: none; }
+/* entrance animation — PURE CSS (no JS dependency): content is always visible,
+   it just fades/slides up once on load. `both` keeps the final (visible) state. */
+.reveal { animation: fadeup 0.7s ease both; }
+@keyframes fadeup { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
 
-/* QA capture mode (?qa): compact flow, everything visible/revealed */
-.qa .snap { scroll-snap-type: none; }
+/* QA capture mode (?qa): compact flow */
+.qa { scroll-snap-type: none; }
 .qa .screen { min-height: auto; padding: 1.4rem clamp(1rem, 5vw, 3rem) 1.4rem; scroll-snap-align: none; }
 .qa .hero { min-height: auto; }
-.qa .reveal { opacity: 1 !important; transform: none !important; }
+.qa .reveal { animation: none; }
 .qa .cta { opacity: 1; transform: none; }
 
 footer { color: var(--ink-soft); font-size: 0.85rem; border-top: 1px solid var(--rule);
